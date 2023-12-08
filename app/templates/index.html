@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h2>Welcome to MyCuisine Collection</h2>
+    <p>By Kadidia Coulibaly</p>
+    <p>Explore a world of delicious recipes at MyCuisine Collection. Whether you're a seasoned chef or just getting started in the kitchen, you'll find a variety of recipes to suit your taste. Create an account, add your favorite recipes, and start your culinary journey today!</p>
+    <div>
+        <ul>
+            {% for recipe in recipes %}
+                <li>
+                    <a href="{{ url_for('view_recipe', id=recipe.id) }}">{{ recipe.title }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endblock %}
