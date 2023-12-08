@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Welcome to MyCuisine Collection</h2>
+<div>
+    <ul>
+        {% for recipe in recipes %}
+            <li>
+                <a href="{{ url_for('view_recipe', id=recipe.id) }}">{{ recipe.title }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
