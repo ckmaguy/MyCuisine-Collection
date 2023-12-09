@@ -1,10 +1,14 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, TextAreaField, SubmitField, PasswordField
-from wtforms.validators import DataRequired,Length, EqualTo, Email 
+from wtforms import StringField, TextAreaField, SubmitField, PasswordField,IntegerField
+from wtforms.validators import DataRequired,Length, EqualTo, Email,Optional
 
 class RecipeForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired()])
     description = TextAreaField('Description', validators=[DataRequired()])
+    ingredients = TextAreaField('Ingredients', validators=[Optional()])
+    preparation_time = IntegerField('Preparation Time (in minutes)', validators=[Optional()])
+    cooking_time = IntegerField('Cooking Time (in minutes)', validators=[Optional()])
+    servings = IntegerField('Servings', validators=[Optional()])
     submit = SubmitField('Submit')
 
 class RegistrationForm(FlaskForm):
