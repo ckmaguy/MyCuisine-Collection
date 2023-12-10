@@ -1,0 +1,36 @@
+name: Continuous Deployment
+
+on:
+  push:
+    branches: [ main, kadidia]  # Adjust this as per your branch naming
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Build Docker image
+      run: docker build -t mycuisine-image:latest .
+
+    - name: Log in to Docker Hub
+      uses: docker/login-action@v1
+      with:
+        username: ${{ secrets.DOCKER_HUB_USERNAME }}
+        password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+
+    - name: Push image to Docker Hub
+      run: docker push mycuisine-image:latest
+
+    - name: Deploy to Docker host
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.DOCKER_HOST }}             # Replace with your Docker host address
+        username: ${{ secrets.DOCKER_HOST_USERNAME }}
+        key: ${{ secrets.DOCKER_HOST_SSH_KEY }}
+        script: |
+          docker pull mycuisine-image:latest
+          docker stop mycuisine-container || true
+          docker rm mycuisine-container || true
+          docker run -d --name mycuisine-container -p 80:80 mycuisine-image:latest
