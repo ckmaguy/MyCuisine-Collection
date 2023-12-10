@@ -46,7 +46,7 @@ class RecipeModelTestCase(unittest.TestCase):
             cooking_time=45,
             servings=4,
             user_id=user.id,
-            steps='Test Steps'  # Adding the steps field
+            steps='Test Steps'  
         )
         db.session.add(recipe)
         db.session.commit()
