@@ -1,7 +1,13 @@
 import unittest
-from app import app, db
-from app.models import User, Recipe
-from testing_config import TestingConfig
+import sys
+import os
+
+project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+sys.path.insert(0, project_root)
+
+from app import app, db  
+from app.models import User, Recipe  
+from testing_config import TestingConfig  
 
 class RecipeModelTestCase(unittest.TestCase):
     def setUp(self):
@@ -10,7 +16,10 @@ class RecipeModelTestCase(unittest.TestCase):
         self.app_context.push()
         db.create_all()
 
-    
+    def tearDown(self):
+        db.session.remove()
+        db.drop_all()
+        self.app_context.pop()
 
     def test_user_model(self):
         user = User(username='TestUser', email='testuser@example.com')
@@ -32,11 +41,12 @@ class RecipeModelTestCase(unittest.TestCase):
         recipe = Recipe(
             title='Test Recipe',
             description='Test Description',
-            user_id=user.id,
             ingredients='Test Ingredients',
             preparation_time=30,
             cooking_time=45,
-            servings=4
+            servings=4,
+            user_id=user.id,
+            steps='Test Steps'  # Adding the steps field
         )
         db.session.add(recipe)
         db.session.commit()
@@ -50,11 +60,7 @@ class RecipeModelTestCase(unittest.TestCase):
         self.assertEqual(retrieved_recipe.preparation_time, 30)
         self.assertEqual(retrieved_recipe.cooking_time, 45)
         self.assertEqual(retrieved_recipe.servings, 4)
-
-    def tearDown(self):
-        db.session.remove()
-        db.drop_all()
-        self.app_context.pop()
+        self.assertEqual(retrieved_recipe.steps, 'Test Steps')  
 
 if __name__ == '__main__':
     unittest.main()
