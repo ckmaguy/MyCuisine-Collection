@@ -9,6 +9,7 @@ class RecipeForm(FlaskForm):
     preparation_time = IntegerField('Preparation Time (in minutes)', validators=[Optional()])
     cooking_time = IntegerField('Cooking Time (in minutes)', validators=[Optional()])
     servings = IntegerField('Servings', validators=[Optional()])
+    steps = TextAreaField('Steps', validators=[DataRequired()])
     submit = SubmitField('Submit')
 
 class RegistrationForm(FlaskForm):

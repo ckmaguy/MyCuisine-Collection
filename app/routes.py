@@ -75,7 +75,9 @@ def add_recipe():
             preparation_time=form.preparation_time.data,
             cooking_time=form.cooking_time.data,
             servings=form.servings.data,
+            steps=form.steps.data,
             user_id=current_user.id
+            
         )  
         db.session.add(recipe)
         db.session.commit()
@@ -90,20 +92,22 @@ def edit_recipe(id):
     if current_user != recipe.user:
         flash('You are not authorized to edit this recipe.')
         return redirect(url_for('index'))
-    
-    if request.method == 'POST':
-        recipe.title = request.form['title']
-        recipe.description = request.form['description']
-        recipe.ingredients = request.form['ingredients']
-        recipe.preparation_time = int(request.form['preparation_time'])
-        recipe.cooking_time = int(request.form['cooking_time'])
-        recipe.servings = int(request.form['servings'])
+
+    form = RecipeForm(obj=recipe)
+    if form.validate_on_submit():
+        recipe.title = form.title.data
+        recipe.description = form.description.data
+        recipe.ingredients = form.ingredients.data
+        recipe.preparation_time = form.preparation_time.data
+        recipe.cooking_time = form.cooking_time.data
+        recipe.servings = form.servings.data
+        recipe.steps = form.steps.data
         
         db.session.commit()
         flash('Your changes have been saved.')
         return redirect(url_for('index'))
-    
-    return render_template('edit_recipe.html', title='Edit Recipe', recipe=recipe)
+
+    return render_template('edit_recipe.html', title='Edit Recipe', form=form)
 
 @app.route('/recipe/delete/<int:id>', methods=['POST'])
 @login_required

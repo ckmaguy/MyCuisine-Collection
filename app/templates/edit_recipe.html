@@ -13,6 +13,26 @@
         {{ form.description(rows=4) }}
     </div>
     <div>
+        {{ form.ingredients.label }}<br>
+        {{ form.ingredients(rows=4) }}
+    </div>
+    <div>
+        {{ form.preparation_time.label }}<br>
+        {{ form.preparation_time(type='number') }}
+    </div>
+    <div>
+        {{ form.cooking_time.label }}<br>
+        {{ form.cooking_time(type='number') }}
+    </div>
+    <div>
+        {{ form.servings.label }}<br>
+        {{ form.servings(type='number') }}
+    </div>
+    <div>
+        {{ form.steps.label }}<br>
+        {{ form.steps(class='form-control', rows=10) }}
+    </div>
+    <div>
         <button type="submit">{{ title }}</button>
     </div>
 </form>

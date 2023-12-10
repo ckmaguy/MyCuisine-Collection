@@ -1,0 +1,54 @@
+name: Flask CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, kadidia ]
+  pull_request:
+    branches: [ main, kadidia ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_ROOT_PASSWORD: dummy  
+          MYSQL_DATABASE: mycuisine_db
+          MYSQL_USER: efrei
+          MYSQL_PASSWORD: mlinprod
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval=10s
+          --health-timeout=10s
+          --health-retries=5
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Python 3.x
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install flake8 pytest
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+    - name: Lint with flake8
+      run: |
+        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+
+    - name: Build the Docker image
+      run: docker-compose build
+
+    - name: Run tests
+      run: docker-compose run --rm app pytest
+
+    # Add deployment steps here

@@ -3,13 +3,26 @@ services:
   web:
     build: .
     ports:
-      - "5000:5000"
+      - "5001:5000"
+    environment:
+      - DATABASE_HOST=db
+      - DATABASE_USER=efrei
+      - DATABASE_PASSWORD=mlinprod
+      - DATABASE_NAME=mycuisinedb
+    depends_on:
+      - db
   db:
     image: mysql:5.7
     environment:
       MYSQL_DATABASE: mycuisinedb
-      MYSQL_USER: user
-      MYSQL_PASSWORD: password
-      MYSQL_ROOT_PASSWORD: password
+      MYSQL_USER: efrei
+      MYSQL_PASSWORD: mlinprod
+      MYSQL_ROOT_PASSWORD: dummy
+      MYSQL_HOST: '%'
     ports:
-      - "3306:3306"
+      - "3307:3306"
+    volumes:
+      - mycuisine-db:/var/lib/mysql
+
+volumes:
+  mycuisine-db:

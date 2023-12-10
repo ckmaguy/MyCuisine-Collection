@@ -29,7 +29,8 @@ class Recipe(db.Model):
     preparation_time = db.Column(db.Integer)  
     cooking_time = db.Column(db.Integer)  
     servings = db.Column(db.Integer) 
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))  
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id')) 
+    steps = db.Column(db.Text) 
 
     def __repr__(self):
         return f'<Recipe {self.title}>'
