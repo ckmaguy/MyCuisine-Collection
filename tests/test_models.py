@@ -21,7 +21,7 @@ class RecipeModelTestCase(unittest.TestCase):
 
     @classmethod
     def tearDownClass(cls):
-        cls.empty_test_tables()  # Empty the test tables instead of dropping the database
+        cls.empty_test_tables()  # Empty the test tables 
         cls.app_context.pop()
 
     @classmethod
@@ -72,11 +72,11 @@ class RecipeModelTestCase(unittest.TestCase):
                 host="localhost",
                 user="efrei",
                 password="mlinprod",
-                database="test_mycuisine_db"  # Specify the test database
+                database="test_mycuisine_db"  
             )
             cursor = conn.cursor()
-            cursor.execute("DELETE FROM recipe")  # Delete rows from the 'recipe' table first
-            cursor.execute("DELETE FROM users")   # Then delete rows from the 'users' table
+            cursor.execute("DELETE FROM recipe")  
+            cursor.execute("DELETE FROM users")   
             conn.commit()
             cursor.close()
             conn.close()
@@ -89,8 +89,7 @@ class RecipeModelTestCase(unittest.TestCase):
         self.app_context = app.app_context()
         self.app_context.push()
         db.create_all()
-        self.create_test_db()  # Create test data
-
+        self.create_test_db()  
     def tearDown(self):
         db.session.remove()
         self.app_context.pop()
@@ -101,7 +100,7 @@ class RecipeModelTestCase(unittest.TestCase):
         db.session.add(user)
         db.session.commit()
 
-        # Assertions to verify user model functionality
+        # verify user model functionality
         self.assertTrue(user.check_password('TestPassword'))
         self.assertFalse(user.check_password('WrongPassword'))
         self.assertEqual(user.email, 'testuser@example.com')
