@@ -8,6 +8,8 @@ MyCuisine Collection: A Flask &amp; MySQL web app for managing personal recipes.
 
 **Description:** A Flask & MySQL web application for managing personal recipes. It's designed for culinary enthusiasts and web developers interested in learning more about web application development, database management, and automated testing.
 
+link to the deployed image: https://hub.docker.com/r/kadidiac/my-cuisine-collection
+
 ### Features
 
 - **User Authentication**: Register, login
