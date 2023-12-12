@@ -1,3 +1,4 @@
+import mysql.connector
 import unittest
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -97,8 +98,12 @@ class TestAppE2E(unittest.TestCase):
 
         # Fill out the registration form
         self.register_user()
+        self.register_user()
 
         # Check if registration was successful
+        success_message = 'Congratulations, you are now a registered user!'
+        self.assertTrue(self.is_element_present(By.CLASS_NAME, 'success-message-class'))
+        self.assertEqual(success_message, self.get_page_content())
         success_message = 'Congratulations, you are now a registered user!'
         self.assertTrue(self.is_element_present(By.CLASS_NAME, 'success-message-class'))
         self.assertEqual(success_message, self.get_page_content())
@@ -110,6 +115,7 @@ class TestAppE2E(unittest.TestCase):
         self.driver.get(BASE_URL + '/login')
         
         # Fill out the login form
+        self.login_user()
         self.login_user()
 
         # Check if login was successful
