@@ -11,7 +11,7 @@ jobs:
         image: mysql:5.7
         env:
           MYSQL_ROOT_PASSWORD: dummy
-          MYSQL_DATABASE: test_mycuisine_db
+          MYSQL_DATABASE: mycuisine_db
           MYSQL_USER: efrei
           MYSQL_PASSWORD: mlinprod
         ports:
