@@ -5,7 +5,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 import mysql.connector
 from mysql.connector import errorcode
-from selenium.common.exceptions import NoSuchElementException  # Import NoSuchElementException
+from selenium.common.exceptions import NoSuchElementException  
 from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
 import subprocess
@@ -57,8 +57,6 @@ class TestAppE2E(unittest.TestCase):
             # SQL DELETE statement to delete the user if they exist
             delete_statement = "DELETE FROM users WHERE username = %s"
             cursor.execute(delete_statement, (username,))
-
-            # Commit changes
             db.commit()
 
             # Check if the user was deleted
@@ -98,24 +96,16 @@ class TestAppE2E(unittest.TestCase):
 
         # Fill out the registration form
         self.register_user()
-        self.register_user()
 
         # Check if registration was successful
         success_message = 'Congratulations, you are now a registered user!'
         self.assertTrue(self.is_element_present(By.CLASS_NAME, 'success-message-class'))
         self.assertEqual(success_message, self.get_page_content())
-        success_message = 'Congratulations, you are now a registered user!'
-        self.assertTrue(self.is_element_present(By.CLASS_NAME, 'success-message-class'))
-        self.assertEqual(success_message, self.get_page_content())
 
-        # Navigate to the login page
-        #self.driver.find_element(By.LINK_TEXT, 'Sign In').click()
-        
         # Directly navigate to the login page
         self.driver.get(BASE_URL + '/login')
         
         # Fill out the login form
-        self.login_user()
         self.login_user()
 
         # Check if login was successful
