@@ -1,4 +1,3 @@
-```markdown
 # MyCuisine Collection
 
 **MyCuisine Collection** is a Flask & MySQL web application for managing personal recipes. It's designed for culinary enthusiasts and web developers interested in learning more about web application development, database management, and automated testing.
