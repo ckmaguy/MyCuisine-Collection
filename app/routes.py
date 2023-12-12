@@ -33,7 +33,7 @@ def register():
             try:
                 db.session.add(user)
                 db.session.commit()
-                flash('Congratulations, you are now a registered user!')
+                flash('Congratulations, you are now a registered user!','success-message-class')
                 return redirect(url_for('login'))
             except Exception as e:
                 # Print any exception for debugging 
@@ -52,9 +52,10 @@ def login():
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
         if user is None or not user.check_password(form.password.data):
-            flash('Invalid username or password')
+            flash('Invalid username or password','error-message-class')
             return redirect(url_for('login'))
         login_user(user)
+        flash('You have successfully logged in.', 'success-message-class')
         return redirect(url_for('index'))
     return render_template('login.html', title='Sign In', form=form)
 

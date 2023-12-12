@@ -6,6 +6,7 @@ import os
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.insert(0, project_root)
 
+from start_test import init_app  
 from app import app, db
 from app.models import User, Recipe
 from app.forms import RegistrationForm, LoginForm, RecipeForm
@@ -19,11 +20,27 @@ class RecipeIntegrationTestCase(TestCase):
 
     def setUp(self):
         db.create_all()
-        self.client = self.app.test_client()  
+        self.client = self.app.test_client()
+        test_user = User.query.filter_by(username='testuser').first()
+        if test_user:
+            db.session.delete(test_user)
+            db.session.commit()  
 
     def tearDown(self):
+        db.session.rollback()
+
+        # Delete test data
+        TestUser = User.query.filter_by(email='owner@example.com').first()
+        if TestUser:
+            db.session.delete(TestUser)
+
+        TestRecipe = Recipe.query.filter_by(title='Test Recipe').first()
+        if TestRecipe:
+            db.session.delete(TestRecipe)
+
+        # Commit changes and remove the session
+        db.session.commit()
         db.session.remove()
-        db.drop_all()
 
     def test_index_route(self):
         response = self.client.get('/')

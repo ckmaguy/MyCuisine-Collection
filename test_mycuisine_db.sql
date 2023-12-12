@@ -33,7 +33,7 @@ CREATE TABLE recipe (
 
 -- Optionally, create or grant access to a user specifically for testing
 -- CREATE USER 'testuser'@'localhost' IDENTIFIED BY 'testpassword';
--- GRANT ALL PRIVILEGES ON test_mycuisine_db.* TO 'testuser'@'localhost';
+GRANT ALL PRIVILEGES ON test_mycuisine_db.* TO 'efrei'@'localhost';
 
 -- Flush the privileges to ensure changes take effect
 FLUSH PRIVILEGES;
