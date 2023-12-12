@@ -14,7 +14,6 @@ class RecipeModelTestCase(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        init_app(TestingConfig)
         cls.app_context = app.app_context()
         cls.app_context.push()
         cls.create_test_db()
