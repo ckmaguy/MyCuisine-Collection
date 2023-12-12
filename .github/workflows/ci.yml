@@ -17,10 +17,10 @@ jobs:
         ports:
           - 3306:3306
         options: >-
-          --health-cmd="mysqladmin ping"
+          --health-cmd="mysqladmin ping --host=localhost --user=efrei --password=mlinprod"
           --health-interval=10s
           --health-timeout=5s
-          --health-retries=3
+          --health-retries=5
 
     steps:
     - uses: actions/checkout@v2
@@ -34,6 +34,13 @@ jobs:
       run: |
         pip install --upgrade pip
         pip install -r requirements.txt
+
+    - name: Wait for MySQL
+      run: |
+        until mysqladmin ping --host=localhost --user=efrei --password=mlinprod; do
+          echo 'waiting for mysql...'
+          sleep 1
+        done
 
     - name: Run unit tests
       run: |
