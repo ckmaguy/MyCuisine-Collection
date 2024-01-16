@@ -1,3 +1,5 @@
+#run app
+
 from app import app, init_app
 from config import Config
 
